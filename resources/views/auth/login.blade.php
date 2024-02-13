@@ -17,14 +17,6 @@
         <div class="col-xl-10">
           <div class="card rounded-3 text-black">
             <div class="row g-0">
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-                <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                  <h4 class="mb-4">We can help you</h4>
-                  <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-              </div>
               <div class="col-lg-6">
                 <div class="card-body p-md-5 mx-md-4">
 
@@ -33,18 +25,18 @@
                     <h4 class="mt-1 mb-5 pb-1">welcome to MedCommerce</h4>
                   </div>
 
-                  <form action="{{ route('register') }}" method="POST">
+                  <form action="{{ route('login') }}" method="POST">
                   @csrf
-                    <p>Please create your account</p>
-
-                    <div class="form-outline mb-4">
-                      <input name="name" type="name" id="form2Example11" class="form-control" placeholder="name" value="{{ old('name') }}" />
-                      <label class="form-label" for="form2Example11">Name</label>
-                    </div>
+                    <p>Please login to your account</p>
 
                     <div class="form-outline mb-4">
                       <input name="email" type="email" id="form2Example11" class="form-control" placeholder=" email address" value="{{ old('email') }}" />
                       <label class="form-label" for="form2Example11">Email</label>
+                      @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                     </div>
 
                     <div class="form-outline mb-4">
@@ -52,28 +44,29 @@
                       <label class="form-label" for="form2Example22">Password</label>
                     </div>
 
-                    <div class="form-outline mb-4">
-                      <input type="password_confirmation" id="form2Example22" class="form-control" placeholder="Confirm your Password" name="password_confirmation" value="{{ old('password_confirmation') }}" />
-                      <label class="form-label" for="form2Example22">Confirm your Password</label>
-                    </div>
-
                     <div class="text-center pt-1 mb-5 pb-1">
-                      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Register</button>
+                      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Log
+                        in</button>
+                      <a class="text-muted" href="{{route('password.request')}}">Forgot password?</a>
                     </div>
 
                     <div class="d-flex align-items-center justify-content-center pb-4">
-                      <p class="mb-0 me-2">Already have an account?</p>
-                      <form action="{{ route('login') }}" method="get">
-                            <button type="submit" class="btn btn-outline-danger">Log in</button>
-                      </form>
-                      
+                      <p class="mb-0 me-2">Don't have an account?</p>
+                      <a class="btn btn-outline-danger" href="{{ route('register') }}">Create new</a>  
                     </div>
 
                   </form>
 
                 </div>
               </div>
-              
+              <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                  <h4 class="mb-4">We are more than just a store</h4>
+                  <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

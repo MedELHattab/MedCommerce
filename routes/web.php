@@ -18,11 +18,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [AuthController::class,'loginForm'])->name('login')->middleware('guest');
-Route::get('/register', [AuthController::class,'registerForm'])->name('register')->middleware('guest');
-Route::post('/register', [AuthController::class,'register'])->name('newregister')->middleware('guest');
-Route::post('/login', [AuthController::class,'login'])->name('newlogin')->middleware('guest');
+Route::get('/login', [AuthController::class,'loginForm'])->name('login');
+Route::get('/register', [AuthController::class,'registerForm'])->name('register');
+Route::post('/register', [AuthController::class,'register'])->name('newregister');
+Route::post('/login', [AuthController::class,'login'])->name('newlogin');
 
-Route::post('/logout', [AuthController::class,'logout'])->name('logout')->middleware('auth');
+Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 
-Route::get('/dashboard', function () {return view('dashboard');})->middleware('auth');
+Route::get('/dashboard', function () {return view('dashboard');});
+
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
