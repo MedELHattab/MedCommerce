@@ -2,7 +2,13 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +21,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::get('/auth/callback', function () {
+    $githubUser = Socialite::driver('github')->user();
+ 
+    $user = User::updateOrCreate([
+        'github_id' => $githubUser->id,
+    ], [
+        'name' => $githubUser->name,
+        'email' => $githubUser->email,
+        'github_token' => $githubUser->token,
+        'github_refresh_token' => $githubUser->refreshToken,
+    ]);
+ 
+    Auth::login($user);
+ 
+    return redirect('welcome');
+});
+
+Route::get('/auth/google/redirect', [GoogleController::class , 'handleGoogleRedirect'])->name('google');
+Route::get('/auth/google/callback', [GoogleController::class , 'handleGoogleCallback']);
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Route::get('/login', [AuthController::class,'loginForm'])->name('login');

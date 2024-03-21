@@ -1,10 +1,12 @@
 <?php
 
+
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,10 +15,18 @@ use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function registerForm()
     {
         return view('auth.register');
     }
+
     public function loginForm()
     {
         return view('auth.login');
@@ -24,34 +34,43 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-       $form = $request->validated();
+        $form = $request->validated();
+        $user = $this->userRepository->findByEmail($form['email']);
 
-       if(Auth::attempt($form)){
-        $request->session()->regenerate();
-        return redirect('/');
-       }
+        if ($user && Hash::check($form['password'], $user->password)) {
+            Auth::login($user);
+            $request->session()->regenerate();
+            return redirect('/');
+        }
 
-       return back()->onlyInput('email');
-
+        return back()->onlyInput('email');
     }
 
     public function register(RegisterRequest $request)
     {
-       $form = $request->validated();
-       $form['password'] = Hash::make($form['password']);
+        $form = $request->validated();
+        // dd($form);
+        // Compare password and password_confirmation
+        if ($form['password'] !== $form['password_confirmation']) {
+            return redirect()->route('register')->withInput($request->except('password', 'password_confirmation'))
+                ->withErrors(['password_confirmation' => 'Password confirmation does not match']);
+        }
 
-       $user = User::create($form);
-       auth()->login($user);
-       return redirect('/');
+        $form['password'] = Hash::make($form['password']);
 
+        $user = $this->userRepository->create($form);
+        Auth::login($user);
+
+        return redirect('/');
     }
 
     public function logout(Request $request)
     {
-      auth()->logout();
-      $request->session()->invalidate();
-      $request->session()->regenerateToken();
-      return redirect('/');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 
     public function showForgotPasswordForm()
