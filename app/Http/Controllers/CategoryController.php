@@ -2,65 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
-use App\Models\Category;
+use App\Http\Controllers\Controller;
+use App\Services\CatygoryService;
+use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(
+      protected CatygoryService $catygoryService
+    ) {
+    }
+
     public function index()
     {
-        //
+        $users = $this->catygoryService->all();
+        return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|confirmed'
+        ]);
+
+        $user = $this->catygoryService->create($data);
+
+        return redirect()->route('users.show', $user->id);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $user = $this->catygoryService->find($id);
+        return view('users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $user = $this->catygoryService->find($id);
+        return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
+            'password' => 'sometimes|confirmed'
+        ]);
+
+        $user = $this->catygoryService->update($data, $id);
+
+        return redirect()->route('users.show', $user->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $this->catygoryService->delete($id);
+
+        return redirect()->route('users.index');
     }
 }
