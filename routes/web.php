@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\MollieController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -85,6 +86,9 @@ Route::resource("products", ProductController::class, [
 Route::delete('/delete/{id}',[ProductController::class,'deleteProduct'])->name('deleteItem');
 Route::post('/comments/store',[CommentController::class,'store'])->name('comment.store');
 Route::post('/favoris/store',[FavorisController::class,'store'])->name('favoris.store');
+Route::post('mollie', [MollieController::class, 'mollie'])->name('mollie');
+Route::get('success', [MollieController::class, 'success'])->name('success');
+Route::get('cancel', [MollieController::class, 'cancel'])->name('cancel');
 
 
 Route::delete('/comment/destroy/{id}',[CommentController::class,'destroy'])->name('comment.destroy');

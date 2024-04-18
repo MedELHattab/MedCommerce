@@ -153,7 +153,9 @@
                 @endphp
             @endforeach
         </ul>
+<form action="{{route('mollie')}}" method="POST">
   @csrf
+  <input type="hidden" name="totalPrice" value="{{ number_format($totalPrice, 2) }}">
   <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
             <div>
                 <strong>Total amount</strong>

@@ -11,40 +11,46 @@ use Mollie\Laravel\Facades\Mollie;
 class MollieController extends Controller
 {
     public function mollie(Request $request)
-    {
-        
-        $productsDescription = ''; // Initialize products description
-
-        if (session('cart')) {
-            foreach (session('cart') as $id => $details) {
-                
-                $productsDescription .= $details['name'] . ' (' . $details['quantity'] . '), ';
-            }
-        }
-
-        $productsDescription = rtrim($productsDescription, ', ');
-
-        
-        $payment = Mollie::api()->payments->create([
-            "amount" => [
-                "currency" => "USD",
-                "value" => $formattedAmount,
-            ],
-            "description" => $productsDescription, // Use the products description
-            "redirectUrl" => route('success'),
-            "metadata" => [
-                "order_id" => time(),
-            ],
-        ]);
-
-        //dd($payment);
-
-        session()->put('paymentId', $payment->id);
-        session()->put('quantity', $request->quantity);
+{
     
-        // redirect customer to Mollie checkout page
-        return redirect($payment->getCheckoutUrl(), 303);
+    $formattedAmount = $request->input('totalPrice');
+
+    $productsDescription = ''; 
+
+    if (session('cart')) {
+        foreach (session('cart') as $id => $details) {
+            $productsDescription .= $details['name'] . ' - Size: ' . $details['size'] . ' - Color: ' . $details['color'] . ' (' . $details['quantity'] . '), ';        }
     }
+    $totalQuantity = 0;
+
+    if (session('cart')) {
+        foreach (session('cart') as $id => $details) {
+            $totalQuantity += $details['quantity'];
+        }
+    }
+
+    $productsDescription = rtrim($productsDescription, ', ');
+    
+    // dd($totalQuantity);
+    
+    $payment = Mollie::api()->payments->create([
+        "amount" => [
+            "currency" => "USD",
+            "value" => $formattedAmount,
+        ],
+        "description" => $productsDescription, // Use the products description
+        "redirectUrl" => route('success'),
+        "metadata" => [
+            "order_id" => time(),
+        ],
+    ]);
+
+    session()->put('paymentId', $payment->id);
+    session()->put('quantity', $totalQuantity);
+
+    // Redirect customer to Mollie checkout page
+    return redirect($payment->getCheckoutUrl(), 303);
+}
 
     public function success(Request $request)
     {
@@ -66,14 +72,14 @@ class MollieController extends Controller
             $order = new Order();
             $order->payment_ref = $paymentId;
             
-            // Check if the user has made a payment, if not, apply a 10% discount
-            $userMadePayment = Order::where('user_id', auth()->id())->exists();
-            if (!$userMadePayment) {
-                $discount = $payment->amount->value * 0.10;
-                $order->total_price = $payment->amount->value - $discount;
-            } else {
-                $order->total_price = $payment->amount->value;
-            }
+            // // Check if the user has made a payment, if not, apply a 10% discount
+            // $userMadePayment = Order::where('user_id', auth()->id())->exists();
+            // if (!$userMadePayment) {
+            //     $discount = $payment->amount->value * 0.10;
+            //     $order->total_price = $payment->amount->value - $discount;
+            // } else {
+            //     $order->total_price = $payment->amount->value;
+            // }
     
             $order->payment_id = $obj->id;
             $order->user_id = auth()->id();
@@ -82,7 +88,7 @@ class MollieController extends Controller
             session()->forget('paymentId');
             session()->forget('quantity');
     
-            echo 'Payment is successful.';
+            return redirect()->route('home')->with('success', 'Payement made to cart successfully.');
         } else {
             return redirect()->route('cancel');
         }
