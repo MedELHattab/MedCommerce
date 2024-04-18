@@ -188,6 +188,12 @@ a:hover {
   margin-bottom: 9em;
 }
 
+li.menu-item.pb-2.a {
+  color: var(--dark-color);
+  text-decoration: none;
+  transition: 0.3s color ease-out;
+}
+
 @media only screen and (max-width: 768px) {
   .margin-small,
   .margin-medium,
@@ -222,7 +228,7 @@ h3.cart-title {
   font-size: 0.65em;
 }
 .btn.btn-medium {
-  padding: 0.8em 2.8em;
+  /* padding: 0.8em 2.8em; */
   font-size: 1.1em;
   letter-spacing: 2px;
 }

@@ -144,4 +144,11 @@
     <script type="text/javascript" src="{{asset('assets/js/plugins.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/script.js')}}"></script>
   </body>
-</html>
+<style>
+
+a {
+    color: var(--dark-color);
+    text-decoration: none;
+    transition: 0.3s color ease-out;
+}
+</style>

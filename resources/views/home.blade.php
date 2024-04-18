@@ -130,6 +130,20 @@
                                 <div class="cart-button d-flex">
                                     <form method="POST" action="{{ route('addProducttoCart', $product->id) }}">
                                         @csrf
+                                        <div class="d-flex gap-2">
+                                            <select name="color" id="color" class="my-2 rounded bg-black text-white">
+                                                @foreach($colors as $color)
+                                                    <option value="{{ $color }}">{{ $color->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            
+                                            <select name="size" id="size" class="my-2 rounded bg-black text-white">
+                                                @foreach($sizes as $size)
+                                                    <option value="{{ $size }}">{{ $size->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        
                                         <button type="submit" class="btn btn-medium btn-black">Add to Cart
                                             <svg class="cart-outline">
                                                 <use xlink:href="#cart-outline"></use>
