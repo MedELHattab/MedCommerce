@@ -12,8 +12,7 @@ class MollieController extends Controller
 {
     public function mollie(Request $request)
     {
-        // Calculate the total amount in DHS
-        $totalDHS = 0; // Initialize totalDHS
+        
         $productsDescription = ''; // Initialize products description
 
         if (session('cart')) {
@@ -25,14 +24,9 @@ class MollieController extends Controller
             }
         }
 
-        // Remove the trailing comma and space from the products description
         $productsDescription = rtrim($productsDescription, ', ');
 
-        // Define the exchange rate
-        $exchangeRate = 10;
-
-        // Convert total amount to USD
-        $totalUSD = number_format($totalDHS / $exchangeRate, 2, '.', '');
+    
 
         // Ensure the converted amount meets the minimum requirements of Mollie
         $minAmountUSD = 1.00; // Replace with the actual minimum amount required by Mollie
@@ -41,9 +35,6 @@ class MollieController extends Controller
             // If the amount is lower than the minimum, set it to the minimum
             $totalUSD = $minAmountUSD;
         }
-
-        // Format the amount as a string with the correct number of decimals
-        $formattedAmount = number_format($totalUSD, 2, '.', '');
 
         $payment = Mollie::api()->payments->create([
             "amount" => [
