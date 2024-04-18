@@ -1,5 +1,7 @@
 
-@endif -->
+@extends('partials.app')
+
+@section('content')
 
 
 @if(session("success"))
@@ -71,5 +73,5 @@
 </div>
 </div>
 
-</body>
+@endsection
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use Mollie\Laravel\Facades\Mollie;
 
+
 class MollieController extends Controller
 {
     public function mollie(Request $request)
@@ -82,7 +83,7 @@ class MollieController extends Controller
             $obj->payment_method = "Mollie";
             $obj->user_id = auth()->id();
             $obj->save();
-    
+
             $order = new Order();
             $order->payment_ref = $paymentId;
             
