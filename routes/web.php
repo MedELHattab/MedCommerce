@@ -64,7 +64,7 @@ Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 
 Route::post('/addProducttoCart/{id}', [ProductController::class, 'addProducttoCart'])->name('addProducttoCart');
-Route::post('updateCart', [ProductController::class ,'updateCart'])->name('updateCart');
+Route::post('updateCart/{id}', [ProductController::class ,'updateCart'])->name('updateCart');
 Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
 Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');

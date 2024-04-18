@@ -133,13 +133,13 @@
                                         <div class="d-flex gap-2">
                                             <select name="color" id="color" class="my-2 rounded bg-black text-white">
                                                 @foreach($colors as $color)
-                                                    <option value="{{ $color }}">{{ $color->name }}</option>
+                                                    <option value="{{ $color->id }}">{{ $color->name }}</option>
                                                 @endforeach
                                             </select>
                                             
                                             <select name="size" id="size" class="my-2 rounded bg-black text-white">
                                                 @foreach($sizes as $size)
-                                                    <option value="{{ $size }}">{{ $size->name }}</option>
+                                                    <option value="{{ $size->id }}">{{ $size->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

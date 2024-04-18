@@ -6,8 +6,10 @@
 
 <section class="h-100 gradient-custom">
 @php
-    $cartItems = session('cart', []);
+    $array = session('cart', []);
+    $cartItems = array_filter(array_merge(array(0),$array));
     $cartItemCount = count($cartItems);
+  //  dd($cartItems) ;
 @endphp
   <div class="container py-5">
     <div class="row d-flex justify-content-center my-4">
@@ -27,8 +29,8 @@
             <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                 <!-- Image -->
                 <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                    <img src="{{ asset('uploads/products/' . $item['image']) }}" class="w-100" alt="{{ $item['name'] }}" />
                     <a href="#!">
+                      <img src="{{ asset('uploads/products/' . $item['image']) }}" class="w-100" alt="{{ $item['name'] }}" />
                         <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
                     </a>
                 </div>
@@ -38,20 +40,25 @@
             <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                 <!-- Data -->
                 <p><strong>{{ $item['name'] }}</strong></p>
+                <div class="d-flex gap-2">
+                  <p>{{ $item['size'] }}</p>
+                <p>{{ $item['color'] }}</p>
+                </div>
+                
                 <div class="d-flex">
-<form action="{{ route('deleteItem', $itemId) }}" method="post" >
-    @csrf
-    @method('DELETE')
+                  <form action="{{ route('deleteItem', ['id' => $itemId]) }}" method="post">
+                     @csrf
+                     @method('DELETE')
 
-    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm me-1 mb-2" data-mdb-tooltip-init title="Remove item">
-        <i class="fas fa-trash"></i>
-    </button>
-</form>
-@php
-$userFavorites = auth()->user()->favoris->pluck('product_id')->toArray();
+                      <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm me-1 mb-2" data-mdb-tooltip-init title="Remove item">
+                       <i class="fas fa-trash"></i>
+                      </button>
+                  </form>
+      @php
+            $userFavorites = auth()->user()->favoris->pluck('product_id')->toArray();
 
-$isInFavorites = in_array($itemId, $userFavorites);
-@endphp
+            $isInFavorites = in_array($itemId, $userFavorites);
+       @endphp
 @if(!$isInFavorites)
 <form action="{{route('favoris.store')}}" method="POST">
 @csrf
@@ -68,7 +75,7 @@ $isInFavorites = in_array($itemId, $userFavorites);
 
             <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <!-- Quantity -->
-                <form action="{{ route('updateCart',) }}" method="POST">
+                <form action="{{ route('updateCart', $itemId) }}" method="POST">
         @csrf
         <input type="hidden" name="id" value="{{ $itemId }}">
                 <div class="input-group">
@@ -146,8 +153,8 @@ $isInFavorites = in_array($itemId, $userFavorites);
                 @endphp
             @endforeach
         </ul>
-
-        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+  @csrf
+  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
             <div>
                 <strong>Total amount</strong>
                 <strong>
@@ -156,10 +163,12 @@ $isInFavorites = in_array($itemId, $userFavorites);
             </div>
             <span><strong>${{ number_format($totalPrice, 2) }}</strong></span>
         </li>
-
-        <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
+        
+        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
             Go to checkout
         </button>
+</form>
+        
     </div>
 </div>
       </div>

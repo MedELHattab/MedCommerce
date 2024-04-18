@@ -17,25 +17,14 @@ class MollieController extends Controller
 
         if (session('cart')) {
             foreach (session('cart') as $id => $details) {
-                $totalDHS += $details['price'] * $details['quantity'];
                 
-                // Append each product's name and quantity to the description
                 $productsDescription .= $details['name'] . ' (' . $details['quantity'] . '), ';
             }
         }
 
         $productsDescription = rtrim($productsDescription, ', ');
 
-    
-
-        // Ensure the converted amount meets the minimum requirements of Mollie
-        $minAmountUSD = 1.00; // Replace with the actual minimum amount required by Mollie
-
-        if ($totalUSD < $minAmountUSD) {
-            // If the amount is lower than the minimum, set it to the minimum
-            $totalUSD = $minAmountUSD;
-        }
-
+        
         $payment = Mollie::api()->payments->create([
             "amount" => [
                 "currency" => "USD",
@@ -43,7 +32,6 @@ class MollieController extends Controller
             ],
             "description" => $productsDescription, // Use the products description
             "redirectUrl" => route('success'),
-            // "webhookUrl" => route('webhooks.mollie'),
             "metadata" => [
                 "order_id" => time(),
             ],
