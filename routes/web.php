@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\GoogleController;
@@ -81,6 +82,12 @@ Route::resource("categories", CategoryController::class, [
 Route::resource("products", ProductController::class, [
     'names' => [
         'index' => 'products'
+    ]
+]);
+
+Route::resource("coupons", CouponController::class, [
+    'names' => [
+        'index' => 'coupons'
     ]
 ]);
 Route::delete('/delete/{id}',[ProductController::class,'deleteProduct'])->name('deleteItem');
