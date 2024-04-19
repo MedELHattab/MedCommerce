@@ -77,13 +77,13 @@ class CategoryController extends Controller
     
         $category = $this->categoryService->update($data, $category->id); // Fixed update call
     
-        return redirect()->route('categories');
+        return redirect()->route('categories')->with("success","category updated with success");
     }
 
     public function destroy($id)
     {
         $this->categoryService->delete($id); 
 
-        return redirect()->route('categories');
+        return redirect()->route('categories')->with("success","category deleted with success");
     }
 }

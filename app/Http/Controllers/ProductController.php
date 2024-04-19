@@ -71,7 +71,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('products');
+        return redirect()->route('products')->with("success","product created with success");
     }
 
 
@@ -137,15 +137,16 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('products');
+        return redirect()->route('products')->with("success","product updated with success");
     }
 
     public function destroy($id)
     {
         $this->productService->delete($id);
 
-        return redirect()->route('products');
+        return redirect()->route('products')->with("success","product deleted with success");
     }
+    
 
     public function productCart()
     {
