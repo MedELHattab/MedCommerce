@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Repositories\CouponRepository;
+use App\Repositories\CouponRepositoryInterface;
 use App\Repositories\FavorisRepository;
 use App\Repositories\FavorisRepositoryInterface;
 use App\Repositories\HomeRepository;
 use App\Repositories\HomeRepositoryInterface;
+use App\Services\CouponService;
 use App\Services\FavorisService;
 use App\Services\HomeService;
 use Illuminate\Support\ServiceProvider;
@@ -55,6 +58,13 @@ class AppServiceProvider extends ServiceProvider
          $this->app->bind(FavorisService::class, function ($app) {
              return new FavorisService($app->make(FavorisRepositoryInterface::class));
          });
+         
+         // Coupon bindings
+         $this->app->bind(CouponRepositoryInterface::class, CouponRepository::class);
+         $this->app->bind(CouponService::class, function ($app) {
+             return new CouponService($app->make(CouponRepositoryInterface::class));
+         });
+
     }
 
     /**
