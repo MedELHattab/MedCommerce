@@ -55,4 +55,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favoris::class);
     }
+    public function Coupons (){
+        return $this -> hasMany(Coupon::class);
+    }
 }
