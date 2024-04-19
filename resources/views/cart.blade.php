@@ -173,9 +173,24 @@
         
     </div>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form action="" action="POST">
+      <div class="input-group mb-3">
+        <input type="hidden" name="total price" value="{{ number_format($totalPrice, 2) }}">
+        
+          <input type="text" class="form-control" placeholder="Enter coupon code" aria-label="Enter coupon code" aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit" id="button-addon2">Apply</button>
+        </div>
+        
       </div>
+    </form>
     </div>
   </div>
+</div>
+  
 </section>
 </div>
 
