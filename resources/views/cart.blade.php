@@ -155,7 +155,7 @@
         </ul>
 <form action="{{route('mollie')}}" method="POST">
   @csrf
-  <input type="hidden" name="totalPrice" value="{{ number_format($totalPrice, 2) }}">
+  <input type="hidden" name="totalPrice" value="${{ number_format(session('totalPrice'), 2) }}">
   <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
             <div>
                 <strong>Total amount</strong>
@@ -163,7 +163,7 @@
                     <p class="mb-0">(including VAT)</p>
                 </strong>
             </div>
-            <span><strong>${{ number_format($totalPrice, 2) }}</strong></span>
+            <span><strong>${{ number_format(session('totalPrice'), 2) }}</strong></span>
         </li>
         
         <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
@@ -176,11 +176,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <form action="" action="POST">
+      <form action="Applycoupon" method="POST">
+        @csrf
       <div class="input-group mb-3">
         <input type="hidden" name="total price" value="{{ number_format($totalPrice, 2) }}">
         
-          <input type="text" class="form-control" placeholder="Enter coupon code" aria-label="Enter coupon code" aria-describedby="button-addon2">
+          <input type="text" name="code" class="form-control" placeholder="Enter coupon code" aria-label="Enter coupon code" aria-describedby="button-addon2">
         <div class="input-group-append">
           <button class="btn btn-primary" type="submit" id="button-addon2">Apply</button>
         </div>

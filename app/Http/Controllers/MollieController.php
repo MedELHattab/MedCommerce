@@ -12,8 +12,9 @@ class MollieController extends Controller
 {
     public function mollie(Request $request)
 {
+    // dd($request);
     
-    $formattedAmount = $request->input('totalPrice');
+    $formattedAmount =  number_format(session('totalPrice'), 2) ;
 
     $productsDescription = ''; 
 
@@ -69,8 +70,7 @@ class MollieController extends Controller
             $obj->user_id = auth()->id();
             $obj->save();
 
-            $order = new Order();
-            $order->payment_ref = $paymentId;
+            
             
             // // Check if the user has made a payment, if not, apply a 10% discount
             // $userMadePayment = Order::where('user_id', auth()->id())->exists();
@@ -81,9 +81,7 @@ class MollieController extends Controller
             //     $order->total_price = $payment->amount->value;
             // }
     
-            $order->payment_id = $obj->id;
-            $order->user_id = auth()->id();
-            $order->save();
+            
     
             session()->forget('paymentId');
             session()->forget('quantity');

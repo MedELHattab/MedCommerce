@@ -262,6 +262,15 @@ $cartCount = count(session('cart', []));
     });
 </script>
 @endif
+@if(session("error"))
+<script>
+Swal.fire({
+  title: "error?",
+  text: '{{ session("error") }}',
+  icon: "question"
+});
+</script>
+@endif
 
 
   <x-footer /> 

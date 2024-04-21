@@ -1,5 +1,5 @@
 
-    <div class="py-12 lg:px-10">
+    <div class="lg:px-10">
         <div class="pl-16">
             <a href="javascript:history.go(-1)" class="back-arrow font-semibold text-lg">&larr; Back</a>
         </div>

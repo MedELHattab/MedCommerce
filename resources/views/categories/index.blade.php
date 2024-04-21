@@ -3,23 +3,11 @@
 
 @section('content')
 
-
-@if(session("success"))
-<script>
-    Swal.fire({
-        title: 'Success!',
-        text: '{{ session("success") }}',
-        icon: 'success',
-        confirmButtonText: 'Okay'
-    });
-</script>
-@endif
-
 <div class="relative overflow-x-auto lg:px-10">
 <div class="row  flex justify-start m-3 gap-3 ">
     <div class="col-lg-12 margin-tb  w-40 ">
         <div class="pull-right">
-            <a class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="{{ route('categories.create') }}"> Create category</a>
+            <a class="btn btn-primary text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="{{ route('categories.create') }}"> Create category</a>
         </div>
     </div>
     <div class="col-lg-12 margin-tb w-40 ">

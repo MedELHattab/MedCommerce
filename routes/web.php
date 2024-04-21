@@ -73,6 +73,7 @@ Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 Route::get('/categories',[CategoryController::class, 'index'])->name('categories');
 Route::get('/products',[ProductController::class, 'index'])->name('products');
+Route::post('/Applycoupon',[CouponController::class ,'Applycoupon'])->name('Applycoupon');
 Route::get('/categories/archive',[CategoryController::class, 'archive'])->name('archive');
 Route::resource("categories", CategoryController::class, [
     'names' => [
