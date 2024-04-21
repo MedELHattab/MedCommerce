@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Color;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use Mollie\Laravel\Facades\Mollie;
 
+use App\Models\Detail;
+use App\Models\Size;
+use Illuminate\Support\Facades\DB;
 
 class MollieController extends Controller
 {
     public function mollie(Request $request)
 {
-    // dd($request);
     
-    $formattedAmount =  number_format(session('totalPrice'), 2) ;
-
+    $formattedAmount =  $request->totalPrice ;
+    $formattedAmount+= 0;
+    $formattedAmount=sprintf("%.2f",$formattedAmount);
+    // $formattedAmount+= 0;
+    // dd($formattedAmount);
     $productsDescription = ''; 
 
     if (session('cart')) {
@@ -80,6 +86,19 @@ class MollieController extends Controller
             // } else {
             //     $order->total_price = $payment->amount->value;
             // }
+
+           
+            if (session('cart')) {
+                foreach (session('cart') as $id => $details) {
+                    $size=Size::where("name", $details['size'])->first();
+                    $color=Color::where("name", $details['color'])->first();
+                    
+                    Detail::where('product_id', $details['id'])
+                          ->where('size_id', $size->id)
+                          ->where('color_id', $color->id)
+                          ->update(['number' => DB::raw('number - ' . $details['quantity'])]);
+                }
+            }
     
             
     

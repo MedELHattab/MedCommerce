@@ -55,7 +55,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favoris::class);
     }
-    public function Coupons (){
-        return $this -> hasMany(Coupon::class);
+    public function coupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'user_coupon', 'user_id', 'coupon_id')->withTimestamps();
     }
 }

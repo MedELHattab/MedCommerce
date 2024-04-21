@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_coupon', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('coupon_id');
             $table->timestamps();
+        
+            $table->primary(['user_id', 'coupon_id']);
+        
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('cascade');
+
+            $table->primary(['user_id', 'coupon_id']);
         });
     }
 

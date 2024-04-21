@@ -89,28 +89,38 @@ class CouponController extends Controller
 
     public function Applycoupon(Request $request)
 {
-
+// dd($request);
     $request->validate([
         'code' => 'required|string', 
         'total_price'=>'required'
     ]);
 
     $code = $request->input('code');
-    $totalPrice=$request->input('total_price');
-    
-
+    $totalPrice = (float) $request->input('total_price');
     $coupon = Coupon::where('code', $code)->first();
 
     if (!$coupon) {
         return redirect()->back()->with('error', 'Invalid coupon code.');
     }
 
+    $user = auth()->user();
+    if ($user->coupons()->where('coupon_id', $coupon->id)->exists()) {
+        return redirect()->back()->with('error', 'You have already used this coupon.');
+    }
+    
+
     $percentageDiscount = $coupon->percentage_discount / 100; 
     $discountAmount = $totalPrice * $percentageDiscount;
+   
 
     $totalPrice -= $discountAmount; 
 
+
+    $user->coupons()->attach($coupon);
+
     session(['totalPrice' => $totalPrice]);
+
+
     // Redirect back with success message
     return redirect()->back()->with('success', 'Coupon applied successfully.');
 }

@@ -14,15 +14,14 @@ class Coupon extends Model
         'percentage_discount',
         'usage_limit',
         'expires_at',
-        'user_id',
     ];
 
     protected $casts = [
         'expires_at' => 'datetime',
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'user_coupon', 'coupon_id', 'user_id')->withTimestamps();
     }
 }

@@ -164,6 +164,10 @@ class ProductController extends Controller
     // If detail is found
     if ($detail) {
 
+        if ($detail->number <= 0) {
+            return redirect()->back()->with('error', 'This product is out of stock.');
+        }
+
         $product = Product::findOrFail($id); 
         $colorName = $detail->color->name;
         $sizeName = $detail->size->name;
