@@ -16,10 +16,11 @@ class MollieController extends Controller
 {
     public function mollie(Request $request)
 {
-    
+    // dd($request);
     $formattedAmount =  $request->totalPrice ;
-    $formattedAmount+= 0;
-    $formattedAmount=sprintf("%.2f",$formattedAmount);
+    // dd($formattedAmount);
+    $formattedAmount = number_format($formattedAmount, 2, '.', '');
+    // $formattedAmount=sprintf("%.2f",$formattedAmount);
     // $formattedAmount+= 0;
     // dd($formattedAmount);
     $productsDescription = ''; 

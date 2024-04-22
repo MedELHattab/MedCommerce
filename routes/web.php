@@ -75,6 +75,8 @@ Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard'
 Route::post('/addProducttoCart/{id}', [CartController::class, 'addProducttoCart'])->name('addProducttoCart');
 Route::post('updateCart/{id}', [CartController::class ,'updateCart'])->name('updateCart');
 
+Route::get('favoris/',[FavorisController::class, 'index'])->name('favoris');
+
 Route::get('/categories',[CategoryController::class, 'index'])->name('categories')->middleware('isAdmin');
 Route::get('/products',[ProductController::class, 'index'])->name('products')->middleware('isAdmin');
 Route::post('/Applycoupon',[CouponController::class ,'Applycoupon'])->name('Applycoupon');

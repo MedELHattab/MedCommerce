@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Color;
 use App\Models\Favoris;
+use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 use App\Services\FavorisService;
+use Illuminate\Support\Facades\Auth;
+
 
 class FavorisController extends Controller
 {
@@ -17,8 +21,13 @@ class FavorisController extends Controller
     }
     public function index()
     {
-        $products = $this->favorisService->all(); 
-        return view('faroris', compact('products'));
+        $colors=Color::all();
+        $sizes=Size::all();
+        $user = Auth::user();
+        $products = Product::whereHas('favoris', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+        return view('favoris', compact('products','colors','sizes'));
     }
 
     /**

@@ -1,9 +1,9 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
+            <a class="navbar-brand m-0" href="{{route('home')}}" target="_blank">
                 
-                <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
+                <img src="{{asset('assets/images/medcommerce-high-resolution-logo-removebg-preview.png')}}" class="logo" style="width: 60%">
             </a>
         </div>
         <hr class="horizontal light mt-0 mb-2">
@@ -18,27 +18,27 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/tables.html">
+                    <a class="nav-link text-white " href="{{route('products')}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">table_view</i>
                         </div>
-                        <span class="nav-link-text ms-1">Tables</span>
+                        <span class="nav-link-text ms-1">Products</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/billing.html">
+                    <a class="nav-link text-white " href="{{route('categories')}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">receipt_long</i>
                         </div>
-                        <span class="nav-link-text ms-1">Billing</span>
+                        <span class="nav-link-text ms-1">Categories</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/virtual-reality.html">
+                    <a class="nav-link text-white " href="{{route('coupons')}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">view_in_ar</i>
                         </div>
-                        <span class="nav-link-text ms-1">Virtual Reality</span>
+                        <span class="nav-link-text ms-1">Coupons</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -61,7 +61,7 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/profile.html">
+                    <a class="nav-link text-white " href="">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">person</i>
                         </div>
@@ -69,21 +69,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/sign-in.html">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">login</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Sign In</span>
-                    </a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <a class="nav-link text-white" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">login</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Log Out</span>
+                        </a>
+                    </form>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/sign-up.html">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">assignment</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Sign Up</span>
-                    </a>
-                </li>
+                
             </ul>
         </div>
         <div class="sidenav-footer position-absolute w-100 bottom-0 ">

@@ -174,24 +174,44 @@
         </div>
 
 
-<form action="{{route('mollie')}}" method="POST">
-  @csrf
-  <input type="hidden" name="totalPrice" value="{{session('totalPrice')}}">
-  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+        @if(session('totalPrice'))
+        <form action="{{ route('mollie') }}" method="POST">
+          @csrf
+          <input type="hidden" name="totalPrice" value="{{ session('totalPrice') }}">
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
             <div>
-                <strong>Total amount</strong>
-                <strong>
-                    <p class="mb-0">(including VAT)</p>
-                </strong>
+              <strong>Total amount</strong>
+              <strong>
+                <p class="mb-0">(including VAT)</p>
+              </strong>
             </div>
-            <span><strong>${{$totalPrice}}</strong></span>
-            <span><strong>{{session('totalPrice')}}</strong></span>
-        </li>
-        
-        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
+            <span><strong><del>${{ $totalPrice }}</del></strong></span>
+            <span><strong>${{ session('totalPrice') }}</strong></span>
+          </li>
+                
+          <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
             Go to checkout
-        </button>
-</form>
+          </button>
+        </form>
+      @else
+        <form action="{{ route('mollie') }}" method="POST">
+          @csrf
+          <input type="hidden" name="totalPrice" value="{{ $totalPrice }}">
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+            <div>
+              <strong>Total amount</strong>
+              <strong>
+                <p class="mb-0">(including VAT)</p>
+              </strong>
+            </div>
+            <span><strong>${{ $totalPrice }}</strong></span>
+          </li>
+                
+          <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">
+            Go to checkout
+          </button>
+        </form>
+      @endif
         
     </div>
 </div>
