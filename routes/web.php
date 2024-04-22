@@ -79,7 +79,7 @@ Route::resource("categories", CategoryController::class, [
     'names' => [
         'index' => 'categories'
     ]
-]);
+])->middleware('isAdmin');
 Route::resource("products", ProductController::class, [
     'names' => [
         'index' => 'products'
