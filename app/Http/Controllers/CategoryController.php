@@ -6,12 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Services\CategoryService; 
 use Illuminate\Http\Request;
 use App\Models\Category; // Added model import
+use Illuminate\Support\Facades\Gate;
+
 
 class CategoryController extends Controller
 {
     public function __construct(
       protected CategoryService $categoryService 
     ) {
+        $this->middleware(function ($request, $next) {
+            if (Gate::denies('isAdmin')) {
+                abort(403, 'Unauthorized action.');
+            }
+
+            return $next($request);
+        });
     }
 
     public function index()

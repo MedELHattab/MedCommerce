@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DashboardController;
@@ -63,18 +64,21 @@ Route::post('/login', [AuthController::class,'login'])->name('newlogin');
 
 Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 
-Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
-
-Route::post('/addProducttoCart/{id}', [ProductController::class, 'addProducttoCart'])->name('addProducttoCart');
-Route::post('updateCart/{id}', [ProductController::class ,'updateCart'])->name('updateCart');
 Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
 Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
-Route::get('/categories',[CategoryController::class, 'index'])->name('categories');
-Route::get('/products',[ProductController::class, 'index'])->name('products');
+
+Route::middleware('auth')->group(function () {
+Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard')->middleware('isAdmin');
+
+Route::post('/addProducttoCart/{id}', [CartController::class, 'addProducttoCart'])->name('addProducttoCart');
+Route::post('updateCart/{id}', [CartController::class ,'updateCart'])->name('updateCart');
+
+Route::get('/categories',[CategoryController::class, 'index'])->name('categories')->middleware('isAdmin');
+Route::get('/products',[ProductController::class, 'index'])->name('products')->middleware('isAdmin');
 Route::post('/Applycoupon',[CouponController::class ,'Applycoupon'])->name('Applycoupon');
-Route::get('/categories/archive',[CategoryController::class, 'archive'])->name('archive');
+Route::get('/categories/archive',[CategoryController::class, 'archive'])->name('archive')->middleware('isAdmin');
 Route::resource("categories", CategoryController::class, [
     'names' => [
         'index' => 'categories'
@@ -84,20 +88,25 @@ Route::resource("products", ProductController::class, [
     'names' => [
         'index' => 'products'
     ]
-]);
+])->middleware('isAdmin');
 
 Route::resource("coupons", CouponController::class, [
     'names' => [
         'index' => 'coupons'
     ]
 ]);
-Route::delete('/delete/{id}',[ProductController::class,'deleteProduct'])->name('deleteItem');
+Route::delete('/delete/{id}',[CartController::class,'deleteProduct'])->name('deleteItem');
 Route::post('/comments/store',[CommentController::class,'store'])->name('comment.store');
 Route::post('/favoris/store',[FavorisController::class,'store'])->name('favoris.store');
+
+// mollie Routes
 Route::post('mollie', [MollieController::class, 'mollie'])->name('mollie');
 Route::get('success', [MollieController::class, 'success'])->name('success');
 Route::get('cancel', [MollieController::class, 'cancel'])->name('cancel');
 
-
 Route::delete('/comment/destroy/{id}',[CommentController::class,'destroy'])->name('comment.destroy');
+
+});
+
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

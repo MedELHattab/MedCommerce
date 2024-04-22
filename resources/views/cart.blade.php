@@ -184,6 +184,7 @@
                     <p class="mb-0">(including VAT)</p>
                 </strong>
             </div>
+            <span><strong>${{$totalPrice}}</strong></span>
             <span><strong>{{session('totalPrice')}}</strong></span>
         </li>
         
