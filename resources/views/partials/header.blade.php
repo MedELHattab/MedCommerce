@@ -175,7 +175,7 @@
                 <a class="nav-link me-4" href="#smart-watches">Watches</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-4" href="#yearly-sale">Payment</a>
+                <a class="nav-link me-4" href="{{route('payment')}}">Payment</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link me-4" href="#latest-blog">Blog</a>
@@ -188,6 +188,11 @@
                 </form>
               </li> 
               @endif
+              @can('isAdmin')
+              <li class="nav-item">
+                <a class="nav-link me-4" href="{{route('dashboard')}}">Dashboard</a>
+              </li>
+              @endcan
               
               <li class="nav-item">
                 <div class="user-items ps-5">

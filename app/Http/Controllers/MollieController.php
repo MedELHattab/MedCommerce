@@ -11,6 +11,8 @@ use Mollie\Laravel\Facades\Mollie;
 use App\Models\Detail;
 use App\Models\Size;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class MollieController extends Controller
 {
@@ -115,5 +117,14 @@ class MollieController extends Controller
     public function cancel()
     {
         echo "Payment is cancelled.";
+    }
+
+
+    public function myPayments(){
+        $user = Auth::user();
+        $payments = Payment::where('user_id',$user->id)
+        ->get();
+        // dd($payments);
+        return view('payments', compact('payments'));
     }
 }

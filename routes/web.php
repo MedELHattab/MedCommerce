@@ -76,6 +76,7 @@ Route::post('/addProducttoCart/{id}', [CartController::class, 'addProducttoCart'
 Route::post('updateCart/{id}', [CartController::class ,'updateCart'])->name('updateCart');
 
 Route::get('favoris/',[FavorisController::class, 'index'])->name('favoris');
+Route::get('payments/',[MollieController::class,'myPayments'])->name('payment');
 
 Route::get('/categories',[CategoryController::class, 'index'])->name('categories')->middleware('isAdmin');
 Route::get('/products',[ProductController::class, 'index'])->name('products')->middleware('isAdmin');
