@@ -169,17 +169,13 @@
                 <a class="nav-link me-4" href="{{route('favoris')}}">Favoris</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-4" href="#mobile-products">Products</a>
+                <a class="nav-link me-4" href="{{route('AllProducts')}}">Products</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link me-4" href="#smart-watches">Watches</a>
-              </li>
+              
               <li class="nav-item">
                 <a class="nav-link me-4" href="{{route('payment')}}">Payment</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link me-4" href="#latest-blog">Blog</a>
-              </li>
+              
               @if (auth()->user())
                  <li class="nav-item">
                 <a class="nav-link me-4" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log out</a>

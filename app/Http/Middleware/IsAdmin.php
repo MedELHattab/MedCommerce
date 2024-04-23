@@ -23,6 +23,6 @@ class IsAdmin
 
         // If not an admin, redirect or return an unauthorized response
         // For example:
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return abort(403, 'Unauthorized action.');
     }
 }

@@ -5,9 +5,9 @@
         <div class="container">
             <div class="row">
                 <div class="display-header d-flex justify-content-between pb-3">
-                    <h2 class="display-7 text-dark text-uppercase">Mobile Products</h2>
+                    <h2 class="display-7 text-dark text-uppercase">Favorites</h2>
                     <div class="btn-right">
-                        <a href="shop.html" class="btn btn-medium btn-normal text-uppercase">Go to Shop</a>
+                        <a href="{{route('AllProducts')}}" class="btn btn-medium btn-normal text-uppercase">Go to Shop</a>
                     </div>
                 </div>
                 <div class="swiper product-swiper">
@@ -20,7 +20,7 @@
                                             alt="{{ $product->name }}" class="img-fluid">
                                     </div>
                                     <div class="cart-concern position-absolute">
-                                        <div>
+                                        <div class="d-flex gap-3">
                                             <div class="cart-button d-flex">
                                                 <form method="POST" action="{{ route('addProducttoCart', $product->id) }}">
                                                     @csrf
@@ -49,18 +49,17 @@
                                                     </button>
                                                 </form>
                                             </div>
-
-                                            <form action="{{ route('deleteFavoris') }}" method="post">
+                                            <div class="pt-4">
+                                               <form action="{{ route('deleteFavoris') }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                                  <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm me-1 mb-2" data-mdb-tooltip-init title="Remove item">
                                                   <i class="fas fa-trash"></i>
                                                  </button>
-                                             </form>
-
-
-
+                                             </form> 
+                                            </div>
+                                            
                                         </div>
 
                                     </div>

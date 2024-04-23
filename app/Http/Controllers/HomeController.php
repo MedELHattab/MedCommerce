@@ -23,4 +23,13 @@ class HomeController extends Controller
        $colors=Color::all();
         $products = $this->homeService->all(); 
         return view('home', compact('products','colors','sizes'));
-    }}
+    }
+
+    public function getAllproducts(){
+      $sizes=Size::all();
+       $colors=Color::all();
+        $products = Product::latest()->paginate(10); 
+        return view('Allproducts', compact('products','colors','sizes'))->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+  }

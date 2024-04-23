@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +81,8 @@ Route::delete('/deleteFavoris',[FavorisController::class,'deleteFavoris'])->name
 
 Route::get('favoris/',[FavorisController::class, 'index'])->name('favoris');
 Route::get('payments/',[MollieController::class,'myPayments'])->name('payment');
+
+Route::get('AllProducts/',[HomeController::class,'getAllproducts'])->name('AllProducts');
 
 Route::get('/categories',[CategoryController::class, 'index'])->name('categories')->middleware('isAdmin');
 Route::get('/products',[ProductController::class, 'index'])->name('products')->middleware('isAdmin');

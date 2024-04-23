@@ -23,11 +23,17 @@ class DashboardController extends Controller{
             abort(403);
         }
 
-        $users = User::count();
-        $categories = Category::count();
-        $products = Product::count();
-        $payments = Payment::count();
+        $usersCount = User::count();
+        $categoriesCount = Category::count();
+        $productsCount = Product::count();
+        $paymentsCount = Payment::count();
 
-        return view('dashboard.dashboard', compact('users', 'categories', 'products', 'payments'));
+        $products= Product::latest()->paginate(6);
+        $categories=Category::latest()->paginate(3);
+        $payments=Payment::latest()->paginate(6);
+
+        
+
+        return view('dashboard.dashboard', compact('usersCount', 'categoriesCount', 'productsCount', 'paymentsCount','products','categories','payments'));
     }
 }
