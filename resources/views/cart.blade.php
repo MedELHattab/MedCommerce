@@ -62,7 +62,7 @@
 @if(!$isInFavorites)
 <form action="{{route('favoris.store')}}" method="POST">
 @csrf
-<input type="hidden" name="product_id" value="{{ $itemId}}">
+<input type="hidden" name="product_name" value="{{ $item['name'] }}">
   <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-sm mb-2" data-mdb-tooltip-init title="Move to the wish list">
     <i class="fas fa-heart"></i>
 </button>

@@ -22,7 +22,7 @@ class ProductController extends Controller
             if (Gate::denies('isAdmin')) {
                 abort(403, 'Unauthorized action.');
             }
-
+          
             return $next($request);
         });
     }

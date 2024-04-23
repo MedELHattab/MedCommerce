@@ -53,9 +53,6 @@ Route::get('/auth/google/redirect', [GoogleController::class , 'handleGoogleRedi
 Route::get('/auth/google/callback', [GoogleController::class , 'handleGoogleCallback']);
 
 
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');
 
 Route::get('/login', [AuthController::class,'loginForm'])->name('login');
 Route::get('/register', [AuthController::class,'registerForm'])->name('register');
@@ -72,8 +69,15 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 Route::middleware('auth')->group(function () {
 Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard')->middleware('isAdmin');
 
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
+
+
 Route::post('/addProducttoCart/{id}', [CartController::class, 'addProducttoCart'])->name('addProducttoCart');
 Route::post('updateCart/{id}', [CartController::class ,'updateCart'])->name('updateCart');
+
+Route::delete('/deleteFavoris',[FavorisController::class,'deleteFavoris'])->name('deleteFavoris');
 
 Route::get('favoris/',[FavorisController::class, 'index'])->name('favoris');
 Route::get('payments/',[MollieController::class,'myPayments'])->name('payment');
