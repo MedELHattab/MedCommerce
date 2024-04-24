@@ -28,8 +28,27 @@ class HomeController extends Controller
     public function getAllproducts(){
       $sizes=Size::all();
        $colors=Color::all();
+       $categories=Category::all();
         $products = Product::latest()->paginate(10); 
-        return view('Allproducts', compact('products','colors','sizes'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('Allproducts', compact('products','categories','colors','sizes'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
+
+    public function  search(Request $request){
+      if($request->category){
+         $products = Product::with("category")->where("name","like",'%'.$request->search_string.'%')->Where("category_id",$request->category)->get();
+ 
+     }else $products = Product::with("category")->where("name","like",'%'.$request->search_string.'%')->get();
+ 
+     if($products->count()) return response()->json([
+         "status" => true
+         ,
+         "products" => $products
+         ,
+         "token"  => $request->header("X-CSRF-TOKEN")
+     ]);
+     else  return response()->json([
+         "status" => false
+     ]);
+     }
 
   }

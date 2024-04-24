@@ -83,6 +83,7 @@ Route::get('favoris/',[FavorisController::class, 'index'])->name('favoris');
 Route::get('payments/',[MollieController::class,'myPayments'])->name('payment');
 
 Route::get('AllProducts/',[HomeController::class,'getAllproducts'])->name('AllProducts');
+Route::get("/search",[HomeController::class,"search"])->name("search");
 
 Route::get('/categories',[CategoryController::class, 'index'])->name('categories')->middleware('isAdmin');
 Route::get('/products',[ProductController::class, 'index'])->name('products')->middleware('isAdmin');

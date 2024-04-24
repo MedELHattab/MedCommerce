@@ -143,6 +143,7 @@
     <script type="text/javascript" src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/plugins.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{asset('assets/js/search.js')}}"></script>
   </body>
 <style>
 

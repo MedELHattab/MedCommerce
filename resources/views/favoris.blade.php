@@ -10,6 +10,7 @@
                         <a href="{{route('AllProducts')}}" class="btn btn-medium btn-normal text-uppercase">Go to Shop</a>
                     </div>
                 </div>
+                @if(count($products) > 0)
                 <div class="swiper product-swiper">
                     <div class="swiper-wrapper">
                         @foreach ($products as $product)
@@ -74,6 +75,12 @@
                         @endforeach
                     </div>
                 </div>
+                @else
+                    <div class="text-center text-danger py-5"> 
+                        <p>No results found.</p>
+                    </div>
+
+                @endif
             </div>
         </div>
         <div class="swiper-pagination position-absolute text-center"></div>
