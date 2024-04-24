@@ -36,4 +36,11 @@ class DashboardController extends Controller{
 
         return view('dashboard.dashboard', compact('usersCount', 'categoriesCount', 'productsCount', 'paymentsCount','products','categories','payments'));
     }
+
+    public function allPayments(){
+        $payments=Payment::all();
+        $users=User::all();
+
+        return view('dashboard.payments',compact('users','payments'));
+    }
 }

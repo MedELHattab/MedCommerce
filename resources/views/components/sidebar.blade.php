@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-white active bg-gradient-primary" href="{{route('dashboard')}}">
+                    <a class="nav-link text-white {{ request()->routeIs('dashboard') ?  'bg-gradient-primary' : '' }} " href="{{route('dashboard')}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">dashboard</i>
                         </div>
@@ -18,7 +18,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="{{route('products')}}">
+                    <a class="nav-link text-white {{ request()->routeIs('products') ?  'bg-gradient-primary' : '' }} " href="{{route('products')}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">table_view</i>
                         </div>
@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="{{route('categories')}}">
+                    <a class="nav-link text-white {{ request()->routeIs('categories') ?  'bg-gradient-primary' : '' }}" href="{{route('categories')}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">receipt_long</i>
                         </div>
@@ -34,11 +34,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="{{route('coupons')}}">
+                    <a class="nav-link text-white {{ request()->routeIs('coupons') ?  'bg-gradient-primary' : '' }}" href="{{route('coupons')}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">view_in_ar</i>
                         </div>
                         <span class="nav-link-text ms-1">Coupons</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->routeIs('allPayments') ?  'bg-gradient-primary' : '' }}" href="{{route('allPayments')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">shopping_cart</i>                        </div>
+                        <span class="nav-link-text ms-1">Payments</span>
                     </a>
                 </li>
                 

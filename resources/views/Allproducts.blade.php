@@ -76,6 +76,9 @@
             
         </div>
     </div>
+    <div class="mt-9 p-3">
+        {{ $products->links() }}
+    </div>
 </section>
 
 @endsection

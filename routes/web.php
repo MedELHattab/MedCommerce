@@ -100,6 +100,8 @@ Route::resource("products", ProductController::class, [
     ]
 ])->middleware('isAdmin');
 
+Route::get('allPayments/',[DashboardController::class ,'allPayments'])->name('allPayments')->middleware('isAdmin');
+
 Route::resource("coupons", CouponController::class, [
     'names' => [
         'index' => 'coupons'

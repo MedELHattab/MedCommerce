@@ -163,18 +163,18 @@
           </div>
           <div class="offcanvas-body">
             <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link me-4 active" href="{{route('home')}}">Home</a>
+              <li class="nav-item ">
+                <a class="nav-link me-4  {{ request()->routeIs('home') ? 'text-primary' : '' }}" href="{{route('home')}}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-4" href="{{route('favoris')}}">Favoris</a>
+                <a class="nav-link me-4  {{ request()->routeIs('favoris') ?  'text-primary' : '' }}" href="{{route('favoris')}}">Favoris</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-4" href="{{route('AllProducts')}}">Products</a>
+                <a class="nav-link me-4 {{ request()->routeIs('AllProducts') ?  'text-primary' : '' }}" href="{{route('AllProducts')}}">Products</a>
               </li>
               
               <li class="nav-item">
-                <a class="nav-link me-4" href="{{route('payment')}}">Payment</a>
+                <a class="nav-link me-4 {{ request()->routeIs('payment') ?  'text-primary' : '' }}" href="{{route('payment')}}">Payment</a>
               </li>
               
               @if (auth()->user())
