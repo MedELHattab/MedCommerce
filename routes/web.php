@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\MollieController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -107,6 +108,10 @@ Route::resource("coupons", CouponController::class, [
         'index' => 'coupons'
     ]
 ]);
+
+Route::get('/profile',[ProfileController::class ,'profile'])->name('profile');
+Route::put('updateProfile/',[ProfileController::class, 'updateProfile'])->name('updateProfile');
+
 Route::delete('/delete/{id}',[CartController::class,'deleteProduct'])->name('deleteItem');
 Route::post('/comments/store',[CommentController::class,'store'])->name('comment.store');
 Route::post('/favoris/store',[FavorisController::class,'store'])->name('favoris.store');

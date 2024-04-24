@@ -21,8 +21,7 @@
                 <div class="card-body p-md-5 mx-md-4">
 
                   <div class="text-center">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp" style="width: 185px;" alt="logo">
-                    <h4 class="mt-1 mb-5 pb-1">welcome to MedCommerce</h4>
+                    <img src="{{asset('assets/images/medcommerce-high-resolution-logo-removebg-preview.png')}}" style="width: 185px;" alt="logo">                    <h4 class="mt-1 mb-5 pb-1">welcome to MedCommerce</h4>
                   </div>
 
                   <form action="{{ route('password.email') }}" method="POST">
