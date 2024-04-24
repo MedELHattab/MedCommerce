@@ -75,6 +75,8 @@
 
             <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <!-- Quantity -->
+
+@if(! session('couponUsed'))
                 <form action="{{ route('updateCart', $itemId) }}" method="POST">
         @csrf
         <input type="hidden" name="id" value="{{ $itemId }}">
@@ -92,6 +94,7 @@
                     <button type="submit" class="btn btn-primary mx-2">Update Cart</button>
                 </div>
                 <!-- Quantity -->
+                @endif
                 
                 <!-- Price -->
                 <p class="text-start text-md-center">

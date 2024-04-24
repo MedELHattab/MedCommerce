@@ -88,40 +88,54 @@ class CouponController extends Controller
 
 
     public function Applycoupon(Request $request)
-{
-// dd($request);
-    $request->validate([
-        'code' => 'required|string', 
-        'total_price'=>'required'
-    ]);
+    {
+        $request->validate([
+            'code' => 'required|string', 
+            'total_price'=>'required|numeric' // Make sure total_price is numeric
+        ]);
+    
+        $code = $request->input('code');
+        $totalPrice = (float) $request->input('total_price');
+        $coupon = Coupon::where('code', $code)->first();
+    
+        if (!$coupon) {
+            return redirect()->back()->with('error', 'Invalid coupon code.');
+        }
+    
+        // Check if the coupon is expired
+        if ($coupon->expires_at <= now()) {
+            return redirect()->back()->with('error', 'This coupon has expired.');
+        }
+    
+        $user = auth()->user();
+    
+        // Check if the user has already used this coupon
+        if ($user->coupons()->where('coupon_id', $coupon->id)->exists()) {
+            return redirect()->back()->with('error', 'You have already used this coupon.');
+        }
+    
+        // Check if the coupon has reached its usage limit
+        if ($coupon->usage_limit == null) {
+            return redirect()->back()->with('error', 'This coupon has reached its usage limit.');
+        }
+    
+        // Calculate discount amount based on percentage discount
+        $percentageDiscount = $coupon->percentage_discount / 100; 
+        $discountAmount = $totalPrice * $percentageDiscount;
+       
+        $totalPrice -= $discountAmount; 
+    
+        $user->coupons()->attach($coupon);
+    
+        $coupon->decrement('usage_limit');
+    
+        // Store updated total price in session
+        session(['totalPrice' => $totalPrice]);
 
-    $code = $request->input('code');
-    $totalPrice = (float) $request->input('total_price');
-    $coupon = Coupon::where('code', $code)->first();
-
-    if (!$coupon) {
-        return redirect()->back()->with('error', 'Invalid coupon code.');
-    }
-
-    $user = auth()->user();
-    if ($user->coupons()->where('coupon_id', $coupon->id)->exists()) {
-        return redirect()->back()->with('error', 'You have already used this coupon.');
+        session(['couponUsed' => true]);
+    
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Coupon applied successfully.');
     }
     
-
-    $percentageDiscount = $coupon->percentage_discount / 100; 
-    $discountAmount = $totalPrice * $percentageDiscount;
-   
-
-    $totalPrice -= $discountAmount; 
-
-
-    $user->coupons()->attach($coupon);
-
-    session(['totalPrice' => $totalPrice]);
-
-
-    // Redirect back with success message
-    return redirect()->back()->with('success', 'Coupon applied successfully.');
-}
 }

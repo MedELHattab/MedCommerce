@@ -17,56 +17,57 @@ use Illuminate\Support\Facades\Auth;
 class MollieController extends Controller
 {
     public function mollie(Request $request)
-{
-    // dd($request);
-    $formattedAmount =  $request->totalPrice ;
-    // dd($formattedAmount);
-    $formattedAmount = number_format($formattedAmount, 2, '.', '');
-    // $formattedAmount=sprintf("%.2f",$formattedAmount);
-    // $formattedAmount+= 0;
-    // dd($formattedAmount);
-    $productsDescription = ''; 
+    {
+        // dd($request);
+        $formattedAmount = $request->totalPrice;
+        // dd($formattedAmount);
+        $formattedAmount = number_format($formattedAmount, 2, '.', '');
+        // $formattedAmount=sprintf("%.2f",$formattedAmount);
+        // $formattedAmount+= 0;
+        // dd($formattedAmount);
+        $productsDescription = '';
 
-    if (session('cart')) {
-        foreach (session('cart') as $id => $details) {
-            $productsDescription .= $details['name'] . ' - Size: ' . $details['size'] . ' - Color: ' . $details['color'] . ' (' . $details['quantity'] . '), ';        }
-    }
-    $totalQuantity = 0;
-
-    if (session('cart')) {
-        foreach (session('cart') as $id => $details) {
-            $totalQuantity += $details['quantity'];
+        if (session('cart')) {
+            foreach (session('cart') as $id => $details) {
+                $productsDescription .= $details['name'] . ' - Size: ' . $details['size'] . ' - Color: ' . $details['color'] . ' (' . $details['quantity'] . '), ';
+            }
         }
+        $totalQuantity = 0;
+
+        if (session('cart')) {
+            foreach (session('cart') as $id => $details) {
+                $totalQuantity += $details['quantity'];
+            }
+        }
+
+        $productsDescription = rtrim($productsDescription, ', ');
+
+        // dd($totalQuantity);
+
+        $payment = Mollie::api()->payments->create([
+            "amount" => [
+                "currency" => "USD",
+                "value" => $formattedAmount,
+            ],
+            "description" => $productsDescription, // Use the products description
+            "redirectUrl" => route('success'),
+            "metadata" => [
+                "order_id" => time(),
+            ],
+        ]);
+
+        session()->put('paymentId', $payment->id);
+        session()->put('quantity', $totalQuantity);
+
+        // Redirect customer to Mollie checkout page
+        return redirect($payment->getCheckoutUrl(), 303);
     }
-
-    $productsDescription = rtrim($productsDescription, ', ');
-    
-    // dd($totalQuantity);
-    
-    $payment = Mollie::api()->payments->create([
-        "amount" => [
-            "currency" => "USD",
-            "value" => $formattedAmount,
-        ],
-        "description" => $productsDescription, // Use the products description
-        "redirectUrl" => route('success'),
-        "metadata" => [
-            "order_id" => time(),
-        ],
-    ]);
-
-    session()->put('paymentId', $payment->id);
-    session()->put('quantity', $totalQuantity);
-
-    // Redirect customer to Mollie checkout page
-    return redirect($payment->getCheckoutUrl(), 303);
-}
 
     public function success(Request $request)
     {
         $paymentId = session()->get('paymentId');
         $payment = Mollie::api()->payments->get($paymentId);
-    
+
         if ($payment->isPaid()) {
             $obj = new Payment();
             $obj->payment_id = $paymentId;
@@ -79,8 +80,8 @@ class MollieController extends Controller
             $obj->user_id = auth()->id();
             $obj->save();
 
-            
-            
+
+
             // // Check if the user has made a payment, if not, apply a 10% discount
             // $userMadePayment = Order::where('user_id', auth()->id())->exists();
             // if (!$userMadePayment) {
@@ -90,24 +91,28 @@ class MollieController extends Controller
             //     $order->total_price = $payment->amount->value;
             // }
 
-           
+
             if (session('cart')) {
                 foreach (session('cart') as $id => $details) {
-                    $size=Size::where("name", $details['size'])->first();
-                    $color=Color::where("name", $details['color'])->first();
-                    
+                    $size = Size::where("name", $details['size'])->first();
+                    $color = Color::where("name", $details['color'])->first();
+
                     Detail::where('product_id', $details['id'])
-                          ->where('size_id', $size->id)
-                          ->where('color_id', $color->id)
-                          ->update(['number' => DB::raw('number - ' . $details['quantity'])]);
+                        ->where('size_id', $size->id)
+                        ->where('color_id', $color->id)
+                        ->update(['number' => DB::raw('number - ' . $details['quantity'])]);
                 }
             }
-    
-            
-    
+
+
+
             session()->forget('paymentId');
             session()->forget('quantity');
-    
+            session()->forget('cart');
+            session()->forget('totalPrice');
+            session()->forget('couponUsed');
+
+
             return redirect()->route('home')->with('success', 'Payement made to cart successfully.');
         } else {
             return redirect()->route('cancel');
@@ -120,10 +125,11 @@ class MollieController extends Controller
     }
 
 
-    public function myPayments(){
+    public function myPayments()
+    {
         $user = Auth::user();
-        $payments = Payment::where('user_id',$user->id)
-        ->get();
+        $payments = Payment::where('user_id', $user->id)
+            ->get();
         // dd($payments);
         return view('payments', compact('payments'));
     }
