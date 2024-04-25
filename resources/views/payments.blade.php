@@ -8,6 +8,7 @@
                 <th>Description</th>
                 <th>Quantity</th>
                 <th>Amount</th>
+                <th>Download</th>
                 
             </tr>
         </thead>
@@ -16,8 +17,15 @@
             
             <tr>
                 <td>{{ $payment->product_name }}</td>
-                <td>{{ $payment->amount }}</td>
+                <td>{{ $payment->quantity }}</td>
                 <td>${{ $payment->amount }}</td>
+                <td>
+                    <form action="{{ route('download.pdf', $payment->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Download PDF</button>
+                    </form>
+                </td>
+
             </tr>
             @endforeach
         </tbody>

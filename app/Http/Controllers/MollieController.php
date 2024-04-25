@@ -7,6 +7,8 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use Mollie\Laravel\Facades\Mollie;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+
 
 use App\Models\Detail;
 use App\Models\Size;
@@ -133,4 +135,20 @@ class MollieController extends Controller
         // dd($payments);
         return view('payments', compact('payments'));
     }
+
+
+    public function downloadPdf($id)
+{
+    // Fetch the payment record
+    $payment = Payment::findOrFail($id);
+
+    // Pass data to the view
+    $data = ['payment' => $payment];
+
+    // Generate PDF
+    $pdf = PDF::loadView('reçue-pdf', $data);
+
+    // Download the PDF file
+    return $pdf->download('receipt_'.$id.'.pdf');
+}
 }

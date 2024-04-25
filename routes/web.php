@@ -111,6 +111,8 @@ Route::resource("coupons", CouponController::class, [
 
 Route::get('/profile',[ProfileController::class ,'profile'])->name('profile');
 Route::put('updateProfile/',[ProfileController::class, 'updateProfile'])->name('updateProfile');
+Route::post('/download-pdf/{id}',[MollieController::class, 'downloadPdf'])->name('download.pdf');
+
 
 Route::delete('/delete/{id}',[CartController::class,'deleteProduct'])->name('deleteItem');
 Route::post('/comments/store',[CommentController::class,'store'])->name('comment.store');

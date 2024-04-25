@@ -196,7 +196,6 @@
         }
     </style>
 
-    @for ($i = 0; $i < $reservation->quantity; $i++)
         <div class="l-col-right ticket-wrap" aria-label="A fake boat ticket demonstrating mixing font weights and widths">
             <div class="ticket" aria-hidden="true">
                 <div class="ticket__header">
@@ -216,34 +215,30 @@
                                 d="M12 28.7c.4.2 1 .3 1.8.6.7.3 1.5.9 2 1.5.6.6 1 1.2 1.5 1.7s.9.8 1.3 1c.6.3 1.2.3 1.6.4.4 0-.5.1-1.6-.4-.5-.2-1-.5-1.5-1 .5.8 1.2 1.4 1.9 1.7.5.1 1 .1 1.5.1 1.2 0 2.3-.6 3.1-1.4.8-.7 1.6-1.6 2.5-1.9.3-.1.9-.3 1.5-.3s1.1.1 1.4.2c-.7-.2-1.4-.2-2.1-.1-.7.1-1.3.5-1.9 1-.6.5-1.1 1.1-1.8 1.7-.7.5-1.6.9-2.5 1h.3c.9-.1 1.9-.6 2.6-1.2.7-.6 1.3-1.2 1.9-1.6.2-.1.4-.3.7-.4-.2.1-.4.2-.7.4-.5.4-1 1-1.6 1.6-.4.4-1 .7-1.5 1-.4.2-.9.2-1.4.3-.3.1-.6.1-.8.1h-.3c.2.1.8.3 1.6.2.9-.1 1.9-.6 2.7-1.3.8-.6 1.4-1.1 1.9-1.4.5-.2.8-.3 1-.3.5-.2 1.2-.6 1.9-.4.2.1.4.2.6.2h.3c.5.2.7.8 1.2 1 .1.1.2.5.3.9.1.4.2.7.3.7.7-.3.1-.1 1 .6.1.1.6 0 .8.2.7.5 1.1.4 2 .4.3 0 .6 0 .9-.1h.6c.2 0 .4-.1.6-.1.2-.1.4-.2.7-.5.1-.1.5-.3.8-.7.3-.3.6-.7.6-.7 1-.8 1.2-1.7 2.2-1.7.3-.4.8-.6 1.4-.7.6 0 1.1.1 1.6.2 1 .2 1.1.7 1.5 1.5.2.2.3.3.4.5 0 .2.5.3.7.6l-.2.1c.1.1.2.3.3.3.1.1 0 .1-.1.1-.1.1-.3.1-.2.3.3.4.8.9 1.3 1.2.6.2 1.3.3 1.9.3.1-.1.1-.2.2-.2.2 0 .3 0 .5-.1.1-.2.1-.4.2-.5.1-.5.6-1 .5-1.5 0-.2-.7-.2-.9-.5 0-.1.1-.2.2-.4-.3-.1-.3-.3-.1-.4-.1 0-.1-.1-.1-.1 0-.1.1-.2.1-.2-.5-.4-.6-1-1.5-1.6-.2-.1-.5-.3-.8-.4-.1-.1-.3-.4-.4-.5-.3 0-.4.2-.6.3-.1-.2-.4-.4-.7-.6-.3-.2-.6-.4-1-.6-.7-.3-1.2-.2-1.3.1-.8-.1-.9.2-1.7.3-.5.1-1.1.2-1.7.5-.6.3-1.1.7-1.5 1.1L38.7 32l-.4.4c-.7.6-1.3.9-2.1.9s-1.5-.1-2-.5c-.6-.3-1.1-.9-1.8-1.6-.7-.7-1.7-1.4-2.9-1.7-1.2-.2-2.4-.1-3.5.4s-1.9 1.3-2.6 2c-.7.7-1.4 1.3-2.2 1.4-.8.2-1.7.1-2.3-.1-1.3-.5-2-1.9-3-2.9-.5-.5-1.1-1-1.7-1.2-.3-.1-.5-.2-.8-.3-.2-.1-.4-.1-.6-.1H12z"
                                 opacity=".8" />
                         </svg>
-                        <span class="ticket__co-name">Evento</span>
-                        <span class="u-upper ticket__co-subname">Boating Adventures</span>
+                        <span class="ticket__co-name">MedCommerce</span>
+                        <span class="u-upper ticket__co-subname">Best Shop</span>
                     </div>
                 </div>
                 <div class="ticket__body">
-                    <p class="ticket__route">{{ $reservation->description }}</p>
-                    <p class="ticket__description">{{$reservation->price}} $</p>
+                    <p class="ticket__route">{{ $payment->product_name }}</p>
+                    <p class="ticket__description">${{$payment->amount}} $</p>
                     <div class="ticket__timing">
                         <p>
-                            {{ $reservation->ticket_code }}
+                            {{ $payment->ticket_code }}
                         </p>
                         <p>
-                            {{ $reservation->payment_id }}
+                            {{ $payment->quantity }}
                         </p>
                         <p>
-                            {{ $reservation->reservation_id }} </p>
+                            {{ $payment->payment_id }} </p>
                     </div>
-                    <p class="ticket__fine-print">This ticket cannot be transferred to another voyage</p>
-                    <p class="u-upper ticket__admit">Admit one adult</p>
+                    
                     <img class="ticket__barcode" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/515428/barcode.png"
                         alt="Fake barcode" />
                 </div>
             </div>
         </div>
-        @if ($i < $reservation->quantity - 1)
-            <div style="page-break-after: always;"></div>
-        @endif
-    @endfor
+        
 
 </body>
 
